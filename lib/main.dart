@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:save_locations/screens/home_page.dart';
+import 'package:save_locations/screens/places.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
@@ -28,6 +28,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Great Places', theme: theme, home: HomePage());
+    return MaterialApp(
+      title: 'Great Places',
+      theme: theme,
+      home: const PlacesScreen(),
+    );
   }
 }
