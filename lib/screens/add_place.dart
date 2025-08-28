@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:save_locations/providers/user_places.dart';
+import 'package:save_locations/widgets/image_input.dart';
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});
@@ -13,15 +16,18 @@ class AddPlaceScreen extends ConsumerStatefulWidget {
 
 class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _titleController = TextEditingController();
+  File? _selectedImage;
 
   void _savePlace() {
     final enteredTitle = _titleController.text;
 
-    if (enteredTitle.isEmpty) {
+    if (enteredTitle.isEmpty || _selectedImage == null) {
       return;
     }
 
-    ref.read(userPlacesProvider.notifier).addPlace(enteredTitle);
+    ref
+        .read(userPlacesProvider.notifier)
+        .addPlace(enteredTitle, _selectedImage!);
 
     Navigator.of(context).pop();
   }
@@ -44,6 +50,12 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
               decoration: const InputDecoration(labelText: 'Title'),
               controller: _titleController,
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+            ),
+            const SizedBox(height: 10),
+            ImageInput(
+              onPickImage: (image) {
+                _selectedImage = image;
+              },
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
